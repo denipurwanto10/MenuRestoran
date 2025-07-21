@@ -1,0 +1,713 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package menu.restoran;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.io.File;
+import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+
+/**
+ *
+ * @author Deni Purwanto
+ */
+public class FormMenu extends javax.swing.JFrame {
+    //objek yang diperlukan untuk mengelola database
+    Statement stmt; //inteface untuk mengeksekusi query;
+    Connection con;    //interface yang menyediakan method untuk menghubungi database;
+    ResultSet rs;       // interface untuk menampung data hasil query.
+    DefaultTableModel model;    //Menambahkan sebuah baris untuk ditempatkan di posisi terakhir dari model.
+    String url = "jdbc:mysql://localhost:3306/menu_restorant";
+
+    /**
+     * Creates new form FormMenu
+     */
+    public FormMenu() {
+        initComponents();
+        tabel();
+        setIcon();
+        initUI();
+    }
+    
+    protected void finalize() throws Throwable {
+        try {
+            // Kode pembersihan atau penanganan terakhir di sini
+            // ...
+        } finally {
+            super.finalize(); // Panggil finalize() dari superclass jika diperlukan
+        }
+    }
+
+    
+    private void initUI(){ 
+        getContentPane().setBackground(new Color(245, 245, 245));
+        
+        Dimension windowSize = getSize();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Point centerPoint = ge.getCenterPoint();
+        int dx = centerPoint.x - windowSize.width / 2;
+        int dy = centerPoint.y - windowSize.height / 2;    
+        setLocation(dx, dy);
+    }
+    
+      
+    private void tabel()  {
+    DefaultTableModel tb = new DefaultTableModel();
+    // Memberi nama pada setiap kolom tabel
+    tb.addColumn("Nama Menu");
+    tb.addColumn("Kategori");
+    tb.addColumn("Harga");
+    
+    jTable2.setModel(tb);
+    try {
+           con = (Connection)konfig.configDB();     //memanggil koneksi yang terdapat pada class konfig
+           Class.forName("com.mysql.cj.jdbc.Driver");
+             stmt = con.createStatement();
+        System.out.println("Database ditemukan");
+        stmt = con.createStatement();    // Membuat objek statement
+        // Mengambil data dari database
+         rs = stmt.executeQuery("select menu.nama, kategori.nama, menu.harga from menu inner join kategori on kategori.id = menu.kategori"); // eksekusi query dan simpan hasilnya di obj ResultSet
+        
+        while (rs.next())
+        {
+            // Mengambil data dari database berdasarkan nama kolom pada tabel
+            // Lalu di tampilkan ke dalam JTable
+            tb.addRow(new Object[] {
+                //getString digunakan untuk mengambil kolom dengan tipe data string. 
+                rs.getString (1),   
+                rs.getString (2),
+                rs.getString (3),
+            });
+        }
+         String count_rows = String.valueOf(jTable2.getRowCount());
+            lblcount_rows.setText("Jumlah Data : " + count_rows); //menampilkan jumlah data yang ada pada tabel
+    }catch ( SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (ClassNotFoundException cnfe){
+            System.out.println("Pesan Error : " + cnfe); //menampilkan pesan error
+        }
+    }
+    
+    public void bersih(){
+        //untuk mereset sebuah inputan
+        txtnama.setText("");
+        cmbkategori.setSelectedIndex(0);
+        txtharga.setText("");
+    }
+    
+     private void GetData_View(){
+        int row = jTable2.getSelectedRow();
+        String row_id = (jTable2.getModel().getValueAt(row, 0).toString());
+        txtid.setText(row_id);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnedit = new javax.swing.JButton();
+        btndelete = new javax.swing.JButton();
+        lblcount_rows1 = new javax.swing.JLabel();
+        txtid = new javax.swing.JLabel();
+        btncetak = new javax.swing.JButton();
+        btnadd = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        lblcount_rows = new javax.swing.JLabel();
+        lbl_action = new javax.swing.JLabel();
+        btnkembali = new javax.swing.JButton();
+        panel = new javax.swing.JPanel();
+        btnsave = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtnama = new javax.swing.JTextField();
+        btncancel = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cmbkategori = new javax.swing.JComboBox<>();
+        txtharga = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(52, 58, 64));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Form Menu");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("X");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("-");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 583, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(24, 24, 24))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(7, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 50));
+
+        btnedit.setBackground(new java.awt.Color(253, 126, 20));
+        btnedit.setForeground(new java.awt.Color(255, 255, 255));
+        btnedit.setText("Ubah");
+        btnedit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneditActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnedit, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 70, -1));
+
+        btndelete.setBackground(new java.awt.Color(220, 53, 69));
+        btndelete.setForeground(new java.awt.Color(255, 255, 255));
+        btndelete.setText("Hapus");
+        btndelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btndelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 80, -1));
+
+        lblcount_rows1.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        lblcount_rows1.setForeground(new java.awt.Color(255, 255, 255));
+        lblcount_rows1.setText("Terpilih :");
+        lblcount_rows1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblcount_rows1MouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblcount_rows1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 480, 50, -1));
+
+        txtid.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(txtid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 480, 100, 20));
+
+        btncetak.setBackground(new java.awt.Color(0, 255, 0));
+        btncetak.setForeground(new java.awt.Color(255, 255, 255));
+        btncetak.setText("Cetak");
+        btncetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncetakActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btncetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 310, -1, -1));
+
+        btnadd.setBackground(new java.awt.Color(0, 105, 217));
+        btnadd.setForeground(new java.awt.Color(255, 255, 255));
+        btnadd.setText("Tambah");
+        btnadd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnaddActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable2MouseReleased(evt);
+            }
+        });
+        jTable2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable2KeyReleased(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable2);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 460, 360));
+
+        lblcount_rows.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        lblcount_rows.setForeground(new java.awt.Color(255, 255, 255));
+        lblcount_rows.setText("Jumlah Data ");
+        lblcount_rows.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblcount_rowsMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblcount_rows, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 180, -1));
+
+        lbl_action.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        lbl_action.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_action.setText("Tambah Data");
+        getContentPane().add(lbl_action, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, -1, -1));
+
+        btnkembali.setBackground(new java.awt.Color(253, 126, 20));
+        btnkembali.setForeground(new java.awt.Color(255, 255, 255));
+        btnkembali.setText("Kembali");
+        btnkembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnkembaliActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnkembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 310, 80, -1));
+
+        panel.setBackground(new java.awt.Color(52, 58, 64));
+        panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        panel.setForeground(new java.awt.Color(245, 245, 245));
+        panel.setEnabled(false);
+
+        btnsave.setBackground(new java.awt.Color(0, 105, 217));
+        btnsave.setForeground(new java.awt.Color(255, 255, 255));
+        btnsave.setText("Simpan");
+        btnsave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsaveActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Nama");
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Kategori");
+
+        txtnama.setBackground(new java.awt.Color(52, 58, 64));
+        txtnama.setForeground(new java.awt.Color(255, 255, 255));
+        txtnama.setBorder(null);
+        txtnama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnamaActionPerformed(evt);
+            }
+        });
+        txtnama.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtnamaKeyTyped(evt);
+            }
+        });
+
+        btncancel.setBackground(new java.awt.Color(220, 53, 69));
+        btncancel.setForeground(new java.awt.Color(255, 255, 255));
+        btncancel.setText("Batal");
+        btncancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncancelActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Harga");
+
+        cmbkategori.setBackground(new java.awt.Color(253, 126, 20));
+        cmbkategori.setForeground(new java.awt.Color(255, 255, 255));
+        cmbkategori.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbkategoriItemStateChanged(evt);
+            }
+        });
+        cmbkategori.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbkategoriMouseClicked(evt);
+            }
+        });
+        cmbkategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbkategoriActionPerformed(evt);
+            }
+        });
+
+        txtharga.setBackground(new java.awt.Color(52, 58, 64));
+        txtharga.setForeground(new java.awt.Color(255, 255, 255));
+        txtharga.setBorder(null);
+
+        jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5))
+                .addGap(30, 30, 30)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSeparator1)
+                    .addComponent(cmbkategori, 0, 213, Short.MAX_VALUE)
+                    .addComponent(txtharga, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(btncancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnsave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtnama)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cmbkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtharga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btncancel)
+                    .addComponent(btnsave))
+                .addGap(488, 488, 488))
+        );
+
+        getContentPane().add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, -1, 170));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Gambar/gambar.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 820, 470));
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
+        // TODO add your handling code here:
+         lbl_action.setText("Tambah Data");
+        jTable2.clearSelection();
+        btnsave.setText("Simpan");
+        txtnama.requestFocus();
+    }//GEN-LAST:event_btnaddActionPerformed
+
+    private void btneditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditActionPerformed
+        // TODO add your handling code here:
+        menu  data = new menu();
+        // ambil input dari user
+        data.setNama(txtnama.getText());
+        data.setKategori((String)cmbkategori.getSelectedItem());
+        data.setHarga(txtharga.getText());
+        
+         try{
+            int idkategori = 0 ;    //idkategori di set 0 
+            //untuk menampilkan kolom nama pada table kategori
+            String sqly = " select * from kategori where nama='"+((String)cmbkategori.getSelectedItem())+"' "; 
+            rs = stmt.executeQuery(sqly);   //query untuk menampilkan data
+            if(rs.next())
+                idkategori = rs.getInt(1);
+            //query update
+            String sql = "update menu SET  kategori = '"+idkategori+"',harga = '"+txtharga.getText()+"' WHERE nama = '"+txtnama.getText()+"'";  // query update
+            con = (Connection)konfig.configDB();       //memanggil koneksi yang sudah dibuat pada class konfig untuk menjalankan query 
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate(sql);    //update data
+            JOptionPane.showMessageDialog(null, "Data berhasil di edit");  //notifikasi bahwa data berhasil di update
+            tabel();    //memanggil fungsi tabel
+            bersih();  //memanggil fungsi bersih
+        }catch(HeadlessException | SQLException e){
+            System.err.println("Error : " + e); //untuk memeriksa suatu error pada program
+        } catch (ClassNotFoundException cnfe){
+            System.out.println("Pesan Error : " + cnfe);
+        }
+    }//GEN-LAST:event_btneditActionPerformed
+
+    private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
+        // TODO add your handling code here:
+        menu  data = new menu();
+        // ambil input dari user
+        data.setNama(txtnama.getText());
+        data.setKategori((String)cmbkategori.getSelectedItem());
+        data.setHarga(txtharga.getText());
+
+        int ok = JOptionPane.showConfirmDialog(null, "Apakah anda yakin ingin menghapus data ini?", "Pesan Peringatan", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (ok == 0) {
+            //query delete
+            String sql = "DELETE FROM menu WHERE nama='" + txtnama.getText().trim() + "'";  // query delete
+            try{                  
+            con = (Connection)konfig.configDB();    //memanggil koneksi yang sudah dibuat pada class konfig untuk menjalankan query 
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            stmt = con.prepareStatement(sql);
+            JOptionPane.showMessageDialog(null, "Data Berhasil di Hapus", "Hapus Data", JOptionPane.INFORMATION_MESSAGE);  //notifikasi bahwa data berhasil dihapus]
+            stmt.execute(sql);     //untuk menjalankan eksekusi query
+            //merefresh inputan pada saat selesai menghapus data 
+            stmt.close();
+            bersih();
+            tabel();         //memanggil fungsi tabel dan merefresh ketika selesai menjalankan query
+        } catch (HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (ClassNotFoundException cnfe){
+            System.out.println("Pesan Error : " + cnfe);
+        }
+        }
+    }//GEN-LAST:event_btndeleteActionPerformed
+
+    private void lblcount_rowsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblcount_rowsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblcount_rowsMouseClicked
+
+    private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
+        // TODO add your handling code here:
+        menu  data = new menu();
+        // ambil input dari user
+        data.setNama(txtnama.getText());
+        data.setKategori((String)cmbkategori.getSelectedItem());
+        data.setHarga(txtharga.getText());
+        
+        try{
+            //query insert
+            int idkategori = 0;
+            String sqly = " select * from kategori where nama='"+((String)cmbkategori.getSelectedItem())+"' ";
+            rs = stmt.executeQuery(sqly);
+            if(rs.next())
+                idkategori = rs.getInt(1);
+            String sql = "insert into menu values ('"+(txtnama.getText())+"','"+idkategori+"','"+(txtharga.getText())+"')";  // query simpan
+            stmt.executeUpdate(sql);       //simpan data
+            JOptionPane.showMessageDialog(null,"Data berhasil di simpan");  //notifikasi bahwa data berhasil disimpan
+            tabel();    //memanggil fungsi tabel
+            bersih();  //memanggil fungsi bersih
+        } catch (SQLException ex){
+            System.out.println("SQLException:"+ex.getMessage()); //untuk memeriksa suatu error pada program
+        }
+    }//GEN-LAST:event_btnsaveActionPerformed
+
+    private void txtnamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnamaActionPerformed
+
+    private void txtnamaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnamaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnamaKeyTyped
+
+    private void btncancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelActionPerformed
+        // TODO add your handling code here:
+        btnadd.doClick();
+    }//GEN-LAST:event_btncancelActionPerformed
+
+    private void btnkembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnkembaliActionPerformed
+        // TODO add your handling code here:
+        Dashboard dashboard = new Dashboard();
+        dashboard.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnkembaliActionPerformed
+
+    private void cmbkategoriItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbkategoriItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbkategoriItemStateChanged
+
+    private void cmbkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbkategoriActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbkategoriActionPerformed
+
+    private void cmbkategoriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbkategoriMouseClicked
+        // TODO add your handling code here:
+         try {
+        cmbkategori.removeAllItems();   //Menghapus sebuah item atau elemen dari daftar combo box.
+        rs = stmt.executeQuery("SELECT *from kategori");   // Kemudian, mengeksekusi query untuk mengambil semua item dari tabel kategori.
+        cmbkategori.addItem("-- Pilih Kategori --");    //menambahkan item ke combo box.
+        while (rs.next()) {
+            cmbkategori.addItem(rs.getString(2));   //menampilkan data baru yang di buat pada table kategori dengan kolom nama 
+        }
+    } catch (SQLException ex) {
+        System.out.println("SQLException" + ex.getMessage()); //untuk memeriksa suatu error pada program
+    }
+    }//GEN-LAST:event_cmbkategoriMouseClicked
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        GetData_View();
+         //jika data pada table diklik maka pada kolom texfield akan menampilkan data yang dipilih pada saat menekan data pada table
+        //Membaca isi sel, lokasi baris dan kolom, Mengembalikan nilai indeks dari baris yang dipilih pertama
+        txtnama.setText(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
+        cmbkategori.setSelectedItem(jTable2.getValueAt(jTable2.getSelectedRow(), 1).toString());
+        txtharga.setText(jTable2.getValueAt(jTable2.getSelectedRow(), 2).toString());
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        this.setState(FormMenu.ICONIFIED);
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void lblcount_rows1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblcount_rows1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblcount_rows1MouseClicked
+
+    private void jTable2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseReleased
+        // TODO add your handling code here:
+        GetData_View();
+    }//GEN-LAST:event_jTable2MouseReleased
+
+    private void jTable2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable2KeyReleased
+        // TODO add your handling code here:
+        GetData_View();
+    }//GEN-LAST:event_jTable2KeyReleased
+
+    private void btncetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncetakActionPerformed
+        // TODO add your handling code here:
+       try {            
+            String path = "src/Laporan/report.jrxml";
+            File file = new File(path);
+            JasperDesign jasperDesign = JRXmlLoader.load(file);
+            JasperReport report = JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint print = JasperFillManager.fillReport(report, null, new JREmptyDataSource());
+            JasperViewer.viewReport(print, false);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "Gagal Mencetak Laporan");
+        }
+    }//GEN-LAST:event_btncetakActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FormMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FormMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FormMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FormMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FormMenu().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnadd;
+    private javax.swing.JButton btncancel;
+    private javax.swing.JButton btncetak;
+    private javax.swing.JButton btndelete;
+    private javax.swing.JButton btnedit;
+    private javax.swing.JButton btnkembali;
+    private javax.swing.JButton btnsave;
+    private javax.swing.JComboBox<String> cmbkategori;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JLabel lbl_action;
+    private javax.swing.JLabel lblcount_rows;
+    private javax.swing.JLabel lblcount_rows1;
+    private javax.swing.JPanel panel;
+    private javax.swing.JTextField txtharga;
+    private javax.swing.JLabel txtid;
+    private javax.swing.JTextField txtnama;
+    // End of variables declaration//GEN-END:variables
+
+        private void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Gambar/menu.png")));
+    }
+}
