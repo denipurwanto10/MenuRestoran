@@ -65,11 +65,17 @@ This application provides a simple user interface to manage food categories and 
       <p><strong>Register Page</strong></p>
     </td>
   </tr>
-  <tr>
+   <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/4033ee89-efc9-4b24-9293-ae06326d15f7" width="100%" alt="Category CRUD" />
+      <p><strong>Dashboard</strong></p>
+    </td>
     <td align="center">
       <img src="https://github.com/user-attachments/assets/4736b05a-fe3d-496b-a06e-2a018af6f586" width="100%" alt="Category CRUD" />
       <p><strong>Category CRUD</strong></p>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <img src="https://github.com/user-attachments/assets/65863b0c-100f-4727-bd6a-de2babbe0dba" width="100%" alt="Menu CRUD" />
       <p><strong>Menu CRUD</strong></p>
